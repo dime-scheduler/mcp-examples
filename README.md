@@ -15,6 +15,10 @@
 
 A sample playground to try the Dime.Scheduler MCP Server.
 
+<div>
+<img src="assets/screenshot.png" height="300px" />
+</div>
+
 ## Getting Started
 
 ### Prerequisites
