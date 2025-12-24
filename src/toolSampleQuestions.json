@@ -1,0 +1,12 @@
+{
+    "get_resource_planning": [
+        "Give me the planning for resource X for this week",
+        "Show me the schedule for resource Y for next month"
+    ],
+    "get_open_tasks": [
+        "What are the open tasks for job JOB001?"
+    ],
+    "get_recommendations": [
+        "Who is available this week for a 2h job nearby London who has the skill 'Carpentry'?"
+    ]
+}
