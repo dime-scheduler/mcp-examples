@@ -1,4 +1,17 @@
-# MCP Playground - Dime.Scheduler
+<div align="center">
+<img src="https://cdn.dimescheduler.com/dime-scheduler/v2/logo.svg" height="100px" />
+</div>
+
+<br />
+<div align="center" >
+<h1>Dime.Scheduler MCP Server Playground</h1>
+</div>
+
+<p align="center">
+  <a href="https://docs.dimescheduler.com">Documentation</a> |
+  <a href="https://docs.dimescheduler.com/history">Changelog</a> |
+  <a href="https://docs.dimescheduler.com/roadmap">Roadmap</a>
+</p>
 
 A sample playground to try the Dime.Scheduler MCP Server.
 
