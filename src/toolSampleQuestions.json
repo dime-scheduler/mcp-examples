@@ -60,5 +60,36 @@
         "Find me a time slot when both John Doe and Jane Smith are available on Friday for a 90-minute meeting",
         "Show me all of Dr. Johnson's appointments for this month and reschedule the one on the 15th to the 22nd",
         "Check if the conference room is booked on January 30th at 10 AM, and if not, create a meeting there"
+    ],
+    "search_appointments": [
+        "Find all appointments for John Doe between January 1st and January 31st, 2024",
+        "Search for appointments with 'meeting' in the subject scheduled this week",
+        "Show me all appointments in the Installation category for task TASK-001",
+        "Find appointments for Conference Room A in the next 7 days",
+        "Search for all client appointments with 'review' in the description"
+    ],
+    "search_jobs": [
+        "Find job JOB001 and show me its details",
+        "Search for all jobs with 'construction' in the name",
+        "Show me jobs in the Maintenance category",
+        "Find jobs related to 'kitchen renovation'",
+        "Search for all active jobs in the Commercial category"
+    ],
+    "search_tasks": [
+        "Find task TASK-001 and show me the details",
+        "Search for all tasks related to job JOB001",
+        "Show me tasks with 'installation' in the subject",
+        "Find all tasks in the Electrical category",
+        "Search for tasks with 'repair' in the description for job JOB002"
+    ],
+    "list_categories": [
+        "What categories are available in the system?",
+        "Show me all the available categories",
+        "List all categories I can use for appointments and tasks"
+    ],
+    "list_time_markers": [
+        "What time markers are available in the system?",
+        "Show me all the time markers I can use",
+        "List all available time markers for appointments"
     ]
 }
