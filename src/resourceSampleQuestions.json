@@ -1,0 +1,23 @@
+{
+    "dimescheduler://resources": [
+        "List all the resources in the system"
+    ],
+    "dimescheduler://resource/{resourceDisplayName}/location": [
+        "Where is John Doe right now?"
+    ],
+    "dimescheduler://recommendation/scorers": [
+        "Which scoring options can I use for recommendations?"
+    ],
+    "dimescheduler://categories": [
+        "What categories are available?"
+    ],
+    "dimescheduler://time-markers": [
+        "What time markers can I use?"
+    ],
+    "dimescheduler://today/open-tasks": [
+        "What tasks are still open today?"
+    ],
+    "dimescheduler://notifications/recent": [
+        "Show me the most recent notifications"
+    ]
+}

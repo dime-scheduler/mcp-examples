@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import type { ChatMessage } from './lib/openai'
 import ChatInterface, { type ChatInterfaceRef } from './components/ChatInterface'
-import ToolsCard from './components/ToolsCard'
+import CapabilitiesPanel from './components/CapabilitiesPanel'
 import ApiKeysWarning from './components/ApiKeysWarning'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Sparkles, AlertCircle, Bot, Loader2 } from 'lucide-react'
@@ -14,12 +14,50 @@ const getApiKeys = () => {
     return { openaiApiKey, mcpApiKey }
 }
 
+// Tools pane width (px) — controlled by the vertical splitter on lg+ screens
+const TOOLS_WIDTH_KEY = 'toolsPaneWidth'
+const DEFAULT_TOOLS_WIDTH = 300
+const MIN_TOOLS_WIDTH = 240
+const MAX_TOOLS_WIDTH = 560
+
 function App() {
     const { openaiApiKey: envOpenAIKey, mcpApiKey: envMcpKey } = getApiKeys()
     const { aiService, connected, isLoading: loading, error, connect, openaiApiKey, mcpApiKey } = useMCPSession()
     const [chatMessages, setChatMessages] = useState<ChatMessage[]>([])
     const [chatLoading, setChatLoading] = useState(false)
     const chatInterfaceRef = useRef<ChatInterfaceRef>(null)
+
+    // Resizable tools pane
+    const mainRowRef = useRef<HTMLDivElement>(null)
+    const [toolsWidth, setToolsWidth] = useState<number>(() => {
+        const stored = Number(localStorage.getItem(TOOLS_WIDTH_KEY))
+        return stored >= MIN_TOOLS_WIDTH && stored <= MAX_TOOLS_WIDTH ? stored : DEFAULT_TOOLS_WIDTH
+    })
+
+    useEffect(() => {
+        localStorage.setItem(TOOLS_WIDTH_KEY, String(toolsWidth))
+    }, [toolsWidth])
+
+    const startResize = (e: React.MouseEvent) => {
+        e.preventDefault()
+        document.body.style.cursor = 'col-resize'
+        document.body.style.userSelect = 'none'
+
+        const onMove = (ev: MouseEvent) => {
+            const rect = mainRowRef.current?.getBoundingClientRect()
+            if (!rect) return
+            const next = Math.min(MAX_TOOLS_WIDTH, Math.max(MIN_TOOLS_WIDTH, rect.right - ev.clientX))
+            setToolsWidth(next)
+        }
+        const onUp = () => {
+            document.body.style.cursor = ''
+            document.body.style.userSelect = ''
+            window.removeEventListener('mousemove', onMove)
+            window.removeEventListener('mouseup', onUp)
+        }
+        window.addEventListener('mousemove', onMove)
+        window.addEventListener('mouseup', onUp)
+    }
 
     // Initialize session when API keys change
     useEffect(() => initializeMCPSession(envOpenAIKey, envMcpKey), [envOpenAIKey, envMcpKey])
@@ -99,9 +137,9 @@ function App() {
                         )}
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6 items-stretch flex-1 min-h-0">
+                    <div ref={mainRowRef} className="flex flex-col lg:flex-row gap-6 lg:gap-0 items-stretch flex-1 min-h-0">
                         {/* AI Chat Card */}
-                        <Card className="shadow-lg border-2 flex flex-col h-full min-h-0">
+                        <Card className="shadow-lg border-2 flex flex-col h-full min-h-0 flex-1 min-w-0">
                             <CardHeader className="border-b bg-gradient-to-r from-primary/5 to-transparent flex-shrink-0">
                                 <CardTitle className="flex items-center gap-2">
                                     <Bot className="h-5 w-5 text-primary" />
@@ -119,9 +157,23 @@ function App() {
                             </CardContent>
                         </Card>
 
+                        {/* Vertical splitter (lg+ only) */}
+                        <div
+                            role="separator"
+                            aria-orientation="vertical"
+                            aria-label="Resize tools pane"
+                            onMouseDown={startResize}
+                            className="group relative mx-3 hidden w-1.5 flex-shrink-0 cursor-col-resize items-center justify-center rounded-full bg-border/60 transition-colors hover:bg-primary/40 lg:flex"
+                        >
+                            <div className="h-8 w-1 rounded-full bg-muted-foreground/40 transition-colors group-hover:bg-primary/70" />
+                        </div>
+
                         {/* Tools Sidebar */}
-                        <div className="flex flex-col min-h-0 h-full">
-                            <ToolsCard
+                        <div
+                            className="flex flex-col min-h-0 h-full w-full flex-shrink-0 lg:w-[var(--tools-w)]"
+                            style={{ '--tools-w': `${toolsWidth}px` } as React.CSSProperties}
+                        >
+                            <CapabilitiesPanel
                                 chatInterfaceRef={chatInterfaceRef}
                                 chatLoading={chatLoading}
                             />

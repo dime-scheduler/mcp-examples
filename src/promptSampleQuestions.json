@@ -1,0 +1,20 @@
+{
+    "find-conflicts": [
+        "Check tomorrow's schedule for double-bookings"
+    ],
+    "triage-open-tasks": [
+        "Help me assign today's open tasks"
+    ],
+    "optimize-and-explain": [
+        "Optimize John Doe's routes next week and explain the changes"
+    ],
+    "onboard-task": [
+        "Walk me through scheduling task TASK-001"
+    ],
+    "audit-resource-day": [
+        "Review what John Doe did today"
+    ],
+    "balance-workload": [
+        "Is the workload balanced across the team this week?"
+    ]
+}

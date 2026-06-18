@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { MCPClient } from '../lib/mcp'
 import { AIService } from '../lib/openai'
-import type { Tool } from '../lib/mcp'
+import type { Tool, Resource, Prompt } from '../lib/mcp'
 
 export const DEFAULT_SERVER_URL = 'https://sandbox.api.dimescheduler.com/mcp'
 
@@ -14,6 +14,8 @@ interface MCPSessionStore {
   mcpClient: MCPClient | null
   connected: boolean
   tools: Tool[]
+  resources: Resource[]
+  prompts: Prompt[]
   isLoading: boolean
   error: string | null
 
@@ -21,6 +23,8 @@ interface MCPSessionStore {
   initialize: (openaiApiKey: string, mcpApiKey: string, serverUrl?: string) => void
   connect: () => Promise<void>
   loadTools: () => Promise<void>
+  loadResources: () => Promise<void>
+  loadPrompts: () => Promise<void>
 }
 
 export const useMCPSessionStore = create<MCPSessionStore>((set, get) => ({
@@ -32,6 +36,8 @@ export const useMCPSessionStore = create<MCPSessionStore>((set, get) => ({
   mcpClient: null,
   connected: false,
   tools: [],
+  resources: [],
+  prompts: [],
   isLoading: false,
   error: null,
 
@@ -75,7 +81,11 @@ export const useMCPSessionStore = create<MCPSessionStore>((set, get) => ({
     try {
       await mcpClient.initialize()
       set({ connected: true })
-      await get().loadTools()
+      await Promise.all([
+        get().loadTools(),
+        get().loadResources(),
+        get().loadPrompts(),
+      ])
     } catch (err) {
       const errorMessage = err instanceof Error
         ? err.message
@@ -102,6 +112,38 @@ export const useMCPSessionStore = create<MCPSessionStore>((set, get) => ({
     } catch (err) {
       console.warn('Tools not available:', err)
       set({ tools: [] })
+    }
+  },
+
+  loadResources: async () => {
+    const { mcpClient, aiService } = get()
+    if (!mcpClient) return
+
+    try {
+      const result = await mcpClient.listResources()
+      const resources = result.resources || []
+      set({ resources })
+
+      // Let the AI service read resources (categories, time markers, roster, etc.)
+      if (aiService) {
+        aiService.setResources(resources)
+      }
+    } catch (err) {
+      console.warn('Resources not available:', err)
+      set({ resources: [] })
+    }
+  },
+
+  loadPrompts: async () => {
+    const { mcpClient } = get()
+    if (!mcpClient) return
+
+    try {
+      const result = await mcpClient.listPrompts()
+      set({ prompts: result.prompts || [] })
+    } catch (err) {
+      console.warn('Prompts not available:', err)
+      set({ prompts: [] })
     }
   },
 }))

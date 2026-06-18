@@ -1,4 +1,4 @@
-import type { MCPRequest, MCPResponse, InitializeResult, ListResourcesResult, ListToolsResult } from './types';
+import type { MCPRequest, MCPResponse, InitializeResult, ListResourcesResult, ListToolsResult, ListPromptsResult, GetPromptResult } from './types';
 
 /**
  * MCP Client for connecting to Dime.Scheduler MCP Server
@@ -212,6 +212,50 @@ export class MCPClient {
         return { tools: [] };
       }
       console.error('Failed to list tools:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * List available prompts (guided workflows)
+   * Returns empty list if prompts are not supported
+   */
+  async listPrompts(server: string | null = null): Promise<ListPromptsResult> {
+    try {
+      const params: Record<string, unknown> = {};
+      if (server) {
+        params.server = server;
+      }
+      const result = await this.request<ListPromptsResult>('prompts/list', params);
+      return result;
+    } catch (error) {
+      // If method is not available, return empty prompts instead of throwing
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      if (errorMessage.includes('not available') || errorMessage.includes('Method') || errorMessage.includes('-32601')) {
+        console.warn('Prompts not supported by this MCP server, returning empty list');
+        return { prompts: [] };
+      }
+      console.error('Failed to list prompts:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get a prompt (resolves a guided workflow into chat messages)
+   */
+  async getPrompt(name: string, arguments_: Record<string, unknown> = {}, server: string | null = null): Promise<GetPromptResult> {
+    try {
+      const params: Record<string, unknown> = {
+        name,
+        arguments: arguments_
+      };
+      if (server) {
+        params.server = server;
+      }
+      const result = await this.request<GetPromptResult>('prompts/get', params);
+      return result;
+    } catch (error) {
+      console.error('Failed to get prompt:', error);
       throw error;
     }
   }

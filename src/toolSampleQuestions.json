@@ -1,12 +1,86 @@
 {
-    "get_resource_planning": [
-        "Give me the planning for resource X for this week",
-        "Show me the schedule for resource Y for next month"
+    "get_session_context": [
+        "What timezone and user am I working as right now?"
     ],
-    "get_open_tasks": [
-        "What are the open tasks for job JOB001?"
+    "parse_relative_time": [
+        "What date range does 'next week' cover?"
+    ],
+    "get_resource_planning": [
+        "Show me the planning for John Doe this week"
+    ],
+    "get_next_appointment": [
+        "What's the next appointment for John Doe?"
     ],
     "get_recommendations": [
-        "Who is available this week for a 2h job nearby London who has the skill 'Carpentry'?"
+        "Who is available this week for a 2-hour carpentry job near London?"
+    ],
+    "find_resource_by_skill": [
+        "Who has the 'Plumbing' skill?"
+    ],
+    "search_resources": [
+        "Find all resources with 'technician' in their name"
+    ],
+    "get_resource_details": [
+        "What are John Doe's skills and capacity?"
+    ],
+    "check_time_slot_availability": [
+        "Is John Doe free this Friday between 2 PM and 4 PM?"
+    ],
+    "get_resource_availability": [
+        "When is the Main Conference Room available next week?"
+    ],
+    "find_available_slots": [
+        "When can John Doe meet for 30 minutes next week?"
+    ],
+    "create_appointment": [
+        "Schedule a team meeting tomorrow from 10 AM to 11:30 AM with John Doe",
+        "Book Conference Room B on Friday at 3 PM for 2 hours"
+    ],
+    "get_appointment_details": [
+        "Show me the details of John Doe's 'Client Consultation' on January 18th"
+    ],
+    "update_appointment": [
+        "Make John Doe's 'Client Consultation' on January 18th high priority"
+    ],
+    "reschedule_appointment": [
+        "Move John Doe's 'Team Meeting' from January 15th at 10 AM to January 16th at 2 PM"
+    ],
+    "change_appointment_time": [
+        "Move John Doe's 'Site Visit' to start at 2 PM tomorrow"
+    ],
+    "change_appointment_resources": [
+        "Reassign the 'Installation' appointment from John Doe to Jane Smith"
+    ],
+    "delete_appointment": [
+        "Delete John Doe's 'Training Session' on January 18th"
+    ],
+    "bulk_reschedule_appointments": [
+        "Move all of John Doe's Friday appointments to next Monday"
+    ],
+    "bulk_delete_appointments": [
+        "Cancel all appointments scheduled for tomorrow"
+    ],
+    "search_appointments": [
+        "Find all appointments for John Doe this week",
+        "Search for appointments with 'meeting' in the subject this week"
+    ],
+    "search_jobs": [
+        "Find job JOB001 and show me its details"
+    ],
+    "search_tasks": [
+        "Find task TASK-001 and show me the details",
+        "Show me all tasks for job JOB001"
+    ],
+    "optimize_field_service": [
+        "Optimize the routes for John Doe and Jane Smith next week"
+    ],
+    "send_message": [
+        "Tell user john@example.com that his 2 PM appointment moved to 3 PM"
+    ],
+    "create_notification": [
+        "Log a follow-up note on job JOB001"
+    ],
+    "search_notifications": [
+        "Show me the notifications recorded for job JOB001"
     ]
 }
